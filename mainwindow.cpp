@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "rectart.h"
 #include <QPushButton>
 #include <QGridLayout>
 #include <QGraphicsView>
@@ -8,22 +9,21 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-
+    this->resize(400, 400);
     QWidget* widget = new QWidget();
     QPushButton* btnLoad = new QPushButton ("Load");
     QPushButton* btnSave = new QPushButton ("Save");
     QPushButton* btnRect = new QPushButton ("Rectangle");
     QPushButton* btnCirc = new QPushButton ("Circle");
-    QGraphicsView* view = new QGraphicsView();
-    this->scene = new QGraphicsScene();
-    QGridLayout* layout = new QGridLayout();
+    artWidget = new RectArt();
+    layout = new QGridLayout();
 
-    view->setScene(this->scene);
+
     layout->addWidget(btnLoad, 0, 0);
     layout->addWidget(btnSave, 0, 1);
     layout->addWidget(btnRect, 1, 0);
     layout->addWidget(btnCirc, 1, 1);
-    layout->addWidget(view, 2, 0, 2, 2);
+    layout->addWidget(artWidget, 2, 0, 2, 2);
 
     widget->setLayout(layout);
     this->setCentralWidget(widget);
@@ -46,7 +46,12 @@ void MainWindow::onSaveClicked(){
 };
 
 void MainWindow::onRectClicked(){
-    std::cout << "Rectangle" << std::endl;
+    //std::cout << "Rectangle" << std::endl;
+    layout->removeWidget(artWidget);
+    delete artWidget;
+    artWidget = new RectArt();
+
+    layout->addWidget(artWidget, 2, 0, 2, 2);
 };
 
 void MainWindow::onCircClicked(){

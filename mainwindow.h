@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QGridLayout>
+
 
 class MainWindow : public QMainWindow
 {
@@ -14,6 +16,8 @@ private:
     void onRectClicked();
     void onCircClicked();
     QGraphicsScene* scene;
+    QWidget* artWidget;
+    QGridLayout* layout;
 
 public:
     MainWindow(QWidget *parent = nullptr);
