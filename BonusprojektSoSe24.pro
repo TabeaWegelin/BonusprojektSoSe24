@@ -10,12 +10,14 @@ CONFIG += c++17
 
 SOURCES += \
     abstractartwidget.cpp \
+    circart.cpp \
     main.cpp \
     mainwindow.cpp \
     rectart.cpp
 
 HEADERS += \
     abstractartwidget.h \
+    circart.h \
     mainwindow.h \
     rectart.h
 

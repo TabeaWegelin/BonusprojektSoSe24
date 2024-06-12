@@ -1,23 +1,23 @@
-#ifndef RECTART_H
-#define RECTART_H
+#ifndef CIRCART_H
+#define CIRCART_H
 
 #include "abstractartwidget.h"
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QSlider>
 
-class RectArt : public AbstractArtWidget
+class CircArt : public AbstractArtWidget
 {
     Q_OBJECT
 private:
-    int numRect;
+    int numCirc;
     QGraphicsScene* scene;
     QSlider* slider;
     void onSlider();
 
 public:
-    RectArt(QWidget *parent = nullptr);
-    virtual ~RectArt();
+    explicit CircArt(QWidget *parent = nullptr);
+    virtual ~CircArt();
     virtual void load(QString fileName);
     virtual void save(QString fileName);
     virtual void createRandomArt();
@@ -25,4 +25,4 @@ public:
 signals:
 };
 
-#endif // RECTART_H
+#endif // CIRCART_H

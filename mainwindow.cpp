@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "rectart.h"
+#include "circart.h"
 #include <QPushButton>
 #include <QGridLayout>
 #include <QGraphicsView>
@@ -20,10 +21,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     layout->addWidget(btnLoad, 0, 0);
-    layout->addWidget(btnSave, 0, 1);
     layout->addWidget(btnRect, 1, 0);
+    layout->addWidget(btnSave, 0, 1);
     layout->addWidget(btnCirc, 1, 1);
-    layout->addWidget(artWidget, 2, 0, 2, 2);
+    layout->addWidget(artWidget, 2, 0, 5, 5);
 
     widget->setLayout(layout);
     this->setCentralWidget(widget);
@@ -55,5 +56,10 @@ void MainWindow::onRectClicked(){
 };
 
 void MainWindow::onCircClicked(){
-std::cout << "Circle" << std::endl;
+    //std::cout << "Circle" << std::endl;
+    layout->removeWidget(artWidget);
+    delete artWidget;
+    artWidget = new CircArt();
+
+    layout->addWidget(artWidget, 2, 0, 2, 2);
 };
