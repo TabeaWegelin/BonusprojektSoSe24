@@ -8,6 +8,8 @@
 #include <QColor>
 #include <QBrush>
 #include <QPen>
+#include <fstream>
+#include <iostream>
 
 CircArt::CircArt(QWidget *parent)
     : AbstractArtWidget{parent}
@@ -39,10 +41,39 @@ void CircArt::onSlider(){
 }
 
 void CircArt::load(QString fileName){
+    std::string line;
+    std::ifstream myfile (fileName.toStdString());
+    if (myfile.is_open())
+    {
+        if (getline (myfile,line))
+        {
+            std::cout << line << "\n";
+        }
+        if (getline (myfile,line))
+        {
+            std::cout << line << "\n";
+            numCirc = std::stoi(line);
+            slider->setValue(numCirc);
+            createRandomArt();
+        }
+        myfile.close();
+    }
+    else
+    {
+        std::cout << "Unable to open file";
+    }
 
 }
 
 void CircArt::save(QString fileName){
+    std::ofstream myfile (fileName.toStdString());
+    if (myfile.is_open())
+    {
+        myfile << "[Circ Art]\n";
+        myfile << numCirc << "\n";
+        myfile.close();
+    }
+    else std::cout << "Unable to open file";
 
 }
 

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGridLayout>
+#include "abstractartwidget.h"
 
 
 class MainWindow : public QMainWindow
@@ -16,7 +17,7 @@ private:
     void onRectClicked();
     void onCircClicked();
     QGraphicsScene* scene;
-    QWidget* artWidget;
+    AbstractArtWidget* artWidget;
     QGridLayout* layout;
 
 public:

@@ -8,6 +8,8 @@
 #include <QColor>
 #include <QBrush>
 #include <QPen>
+#include <fstream>
+#include <iostream>
 
 RectArt::RectArt(QWidget *parent)
     : AbstractArtWidget(parent)
@@ -39,10 +41,38 @@ void RectArt::onSlider(){
 };
 
 void RectArt::load(QString fileName){
-
+    std::string line;
+    std::ifstream myfile (fileName.toStdString());
+    if (myfile.is_open())
+    {
+        if (getline (myfile,line))
+        {
+            std::cout << line << "\n";
+        }
+        if (getline (myfile,line))
+        {
+            std::cout << line << "\n";
+            numRect = std::stoi(line);
+            slider->setValue(numRect);
+            createRandomArt();
+        }
+        myfile.close();
+    }
+    else
+    {
+        std::cout << "Unable to open file";
+    }
 };
 
 void RectArt::save(QString fileName){
+    std::ofstream myfile (fileName.toStdString());
+    if (myfile.is_open())
+    {
+        myfile << "[Rect Art]\n";
+        myfile << numRect << "\n";
+        myfile.close();
+    }
+    else std::cout << "Unable to open file";
 
 };
 
