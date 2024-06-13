@@ -43,25 +43,49 @@ void RectArt::onSlider(){
 void RectArt::load(QString fileName){
     std::string line;
     std::ifstream myfile (fileName.toStdString());
-    if (myfile.is_open())
-    {
-        if (getline (myfile,line))
+    try{
+        if (myfile.is_open())
         {
-            std::cout << line << "\n";
+            if (getline (myfile,line))
+            {
+                std::cout << line << "\n";
+            }
+            if (getline (myfile,line))
+            {
+                std::cout << line << "\n";
+
+                try{
+                    numRect = std::stoi(line);
+                }
+                catch(...){
+                    throw std::string("Invalid Number");
+                }
+                if (numRect < 20 || numRect > 1000){
+                    throw std::string("Number not in range");
+                }
+
+                slider->setValue(numRect);
+                createRandomArt();
+            }
+            else
+            {
+                throw std::string("Number missing");
+            }
+            myfile.close();
         }
-        if (getline (myfile,line))
+        else
         {
-            std::cout << line << "\n";
-            numRect = std::stoi(line);
-            slider->setValue(numRect);
-            createRandomArt();
+            std::cout << "Unable to open file";
+            throw std::string("Unable to open file");
         }
-        myfile.close();
     }
-    else
-    {
-        std::cout << "Unable to open file";
+    catch(std::string const& ex){
+        if(myfile.is_open()){
+            myfile.close();
+        }
+        throw ex;
     }
+
 };
 
 void RectArt::save(QString fileName){

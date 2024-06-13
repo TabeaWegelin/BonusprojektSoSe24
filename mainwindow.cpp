@@ -42,54 +42,66 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {}
 
 void MainWindow::onLoadClicked(){
-    //std::cout << "Load" << std::endl;
+
     AbstractArtWidget* loadedArtWidget = NULL;
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Art Parameters"),
                                                     "",
                                                     tr("Art Parameters (*.ap)"));
     std::string line;
     std::ifstream myfile (fileName.toStdString());
-    if (myfile.is_open())
-    {
-        if (getline (myfile,line))
+    try{
+        if (myfile.is_open())
         {
-            std::cout << line << "\n";
+            if (getline (myfile,line))
+            {
+                std::cout << line << "\n";
+            }
+            myfile.close();
         }
-        myfile.close();
-    }
-    else
-    {
-        std::cout << "Unable to open file";
-    }
-    if (line == "[Rect Art]")
-    {
-        loadedArtWidget = new RectArt();
-    }
-    else if (line == "[Circ Art]")
-    {
-        loadedArtWidget = new CircArt();
-    }
-    loadedArtWidget->load(fileName);
+        else
+        {
+            std::cout << "Unable to open file";
+            throw std::string("Unable to open file");
+        }
 
-    layout->removeWidget(artWidget);
-    delete artWidget;
-    artWidget = loadedArtWidget;
-    layout->addWidget(artWidget, 2, 0, 1, 2);
+        if (line == "[Rect Art]")
+        {
+            loadedArtWidget = new RectArt();
+        }
+        else if (line == "[Circ Art]")
+        {
+            loadedArtWidget = new CircArt();
+        }
+        else
+        {
+            throw std::string("Invalid file content");
+        }
 
-    std::cout << fileName.toStdString() << std::endl;
+        loadedArtWidget->load(fileName);
+
+        layout->removeWidget(artWidget);
+        delete artWidget;
+        artWidget = loadedArtWidget;
+        layout->addWidget(artWidget, 2, 0, 1, 2);
+    }
+    catch(std::string const& ex){
+        std::cout << ex << std::endl;
+        if (loadedArtWidget != NULL)
+        {
+            delete loadedArtWidget;
+        }
+    }
 };
 
 void MainWindow::onSaveClicked(){
-    //std::cout << "Save" << std::endl;
+
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Art Parameters"),
                                                     "",
                                                     tr("Art Parameters (*.ap)"));
     artWidget->save(fileName);
-    std::cout << fileName.toStdString() << std::endl;
 };
 
 void MainWindow::onRectClicked(){
-    //std::cout << "Rectangle" << std::endl;
     layout->removeWidget(artWidget);
     delete artWidget;
     artWidget = new RectArt();
@@ -98,7 +110,6 @@ void MainWindow::onRectClicked(){
 };
 
 void MainWindow::onCircClicked(){
-    //std::cout << "Circle" << std::endl;
     layout->removeWidget(artWidget);
     delete artWidget;
     artWidget = new CircArt();
