@@ -11,7 +11,7 @@ public:
     virtual ~AbstractArtWidget();
     virtual void load(QString fileName) = 0;
     virtual void save(QString fileName) = 0;
-    virtual void createRandomArt() = 0; //when starting the programm
+    virtual void createArt() = 0; //when starting the programm
 
 
 signals:

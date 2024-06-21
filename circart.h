@@ -20,7 +20,7 @@ public:
     virtual ~CircArt();
     virtual void load(QString fileName);
     virtual void save(QString fileName);
-    virtual void createRandomArt();
+    virtual void createArt();
 
 signals:
 };

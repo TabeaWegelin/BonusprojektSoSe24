@@ -26,7 +26,7 @@ RectArt::RectArt(QWidget *parent)
     layout->addWidget(view, 0, 0);
     layout->addWidget(slider, 1, 0);
     this->setLayout(layout);
-    this->createRandomArt();
+    this->createArt();
     QObject::connect(slider, &QSlider::sliderMoved, this, &RectArt::onSlider);
 }
 
@@ -37,7 +37,7 @@ RectArt::~RectArt(){
 void RectArt::onSlider(){
     numRect = slider->value();
     scene->clear();
-    createRandomArt();
+    createArt();
 };
 
 void RectArt::load(QString fileName){
@@ -65,7 +65,7 @@ void RectArt::load(QString fileName){
                 }
 
                 slider->setValue(numRect);
-                createRandomArt();
+                createArt();
             }
             else
             {
@@ -100,7 +100,7 @@ void RectArt::save(QString fileName){
 
 };
 
-void RectArt::createRandomArt(){
+void RectArt::createArt(){
     int arr[4][3] = {{241,186,227},{234,136,209},{134,151,255},{185,195,255}};
     QRandomGenerator random;
     QColor color;

@@ -9,6 +9,7 @@
 #include <fstream>
 #include <QFileDialog>
 #include <string.h>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -86,6 +87,8 @@ void MainWindow::onLoadClicked(){
     }
     catch(std::string const& ex){
         std::cout << ex << std::endl;
+        QMessageBox messageBox;
+        messageBox.critical(0, "Error", ex.c_str());
         if (loadedArtWidget != NULL)
         {
             delete loadedArtWidget;

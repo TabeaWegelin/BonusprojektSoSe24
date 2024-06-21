@@ -20,7 +20,7 @@ public:
     virtual ~RectArt();
     virtual void load(QString fileName);
     virtual void save(QString fileName);
-    virtual void createRandomArt();
+    virtual void createArt();
 
 signals:
 };
