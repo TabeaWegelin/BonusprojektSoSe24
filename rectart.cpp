@@ -11,22 +11,26 @@
 #include <fstream>
 #include <iostream>
 
+
 RectArt::RectArt(QWidget *parent)
     : AbstractArtWidget(parent)
 {
+    //builds layout with slider
     QGridLayout* layout = new QGridLayout();
     scene = new QGraphicsScene();
     QGraphicsView* view = new QGraphicsView();
     slider = new QSlider();
     slider->setOrientation(Qt::Horizontal);
     slider->setRange(10, 1000);
-    numRect = 20;
+    numRect = 450;
+    slider->setValue(numRect);
 
     view->setScene(scene);
     layout->addWidget(view, 0, 0);
     layout->addWidget(slider, 1, 0);
     this->setLayout(layout);
     this->createArt();
+    //connects slidermoved event with onSlider method
     QObject::connect(slider, &QSlider::sliderMoved, this, &RectArt::onSlider);
 }
 
@@ -34,12 +38,14 @@ RectArt::~RectArt(){
 
 };
 
+//changes numRect to value of slider
 void RectArt::onSlider(){
     numRect = slider->value();
     scene->clear();
     createArt();
 };
 
+//checks second line of file and sets numRect to file value
 void RectArt::load(QString fileName){
     std::string line;
     std::ifstream myfile (fileName.toStdString());
@@ -55,7 +61,7 @@ void RectArt::load(QString fileName){
                 std::cout << line << "\n";
 
                 try{
-                    numRect = std::stoi(line);
+                    numRect = std::stoi(line); //string to int
                 }
                 catch(...){
                     throw std::string("Invalid Number");
@@ -83,11 +89,12 @@ void RectArt::load(QString fileName){
         if(myfile.is_open()){
             myfile.close();
         }
-        throw ex;
+        throw ex; //throws to catch block of OnLoadClicked in mainwindow.cpp
     }
 
 };
 
+//opens new file and writes [RectArt] and current numRect
 void RectArt::save(QString fileName){
     std::ofstream myfile (fileName.toStdString());
     if (myfile.is_open())
@@ -100,6 +107,8 @@ void RectArt::save(QString fileName){
 
 };
 
+//draws numRect amount of rectangles
+//placement, size and color follow randomized sequence
 void RectArt::createArt(){
     QRandomGenerator random;
     QColor color;

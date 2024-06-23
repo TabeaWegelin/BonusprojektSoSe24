@@ -14,19 +14,21 @@
 CircArt::CircArt(QWidget *parent)
     : AbstractArtWidget{parent}
 {
+    //builds layout with slider
     QGridLayout* layout = new QGridLayout();
     scene = new QGraphicsScene();
     QGraphicsView* view = new QGraphicsView();
     slider = new QSlider();
     slider->setOrientation(Qt::Horizontal);
     slider->setRange(10, 1000);
-    numCirc = 20;
+    numCirc = 450;
 
     view->setScene(scene);
     layout->addWidget(view, 0, 0);
     layout->addWidget(slider, 1, 0);
     this->setLayout(layout);
     this->createArt();
+    //connects slidermoved event with onSlider method
     QObject::connect(slider, &QSlider::sliderMoved, this, &CircArt::onSlider);
 }
 
@@ -34,12 +36,14 @@ CircArt::~CircArt(){
 
 }
 
+//changes numCirc to value of slider
 void CircArt::onSlider(){
     numCirc = slider->value();
     scene->clear();
     createArt();
 }
 
+//checks second line of file and sets numCirc to file value
 void CircArt::load(QString fileName){
     std::string line;
     std::ifstream myfile (fileName.toStdString());
@@ -83,11 +87,12 @@ void CircArt::load(QString fileName){
         if(myfile.is_open()){
             myfile.close();
         }
-        throw ex;
+        throw ex; //throws to catch block of OnLoadClicked in mainwindow.cpp
     }
 
 }
 
+//opens new file and writes [CircArt] and current numRect
 void CircArt::save(QString fileName){
     std::ofstream myfile (fileName.toStdString());
     if (myfile.is_open())
@@ -100,6 +105,8 @@ void CircArt::save(QString fileName){
 
 }
 
+//draws numCirc amount of circles
+//placement, size and color follow randomized sequence
 void CircArt::createArt(){
     QRandomGenerator random;
     QColor color;

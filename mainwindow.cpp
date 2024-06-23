@@ -14,6 +14,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    //build grid layout and buttons
     this->resize(700, 700);
     QWidget* widget = new QWidget();
     QPushButton* btnLoad = new QPushButton ("Load");
@@ -23,16 +24,18 @@ MainWindow::MainWindow(QWidget *parent)
     artWidget = new RectArt();
     layout = new QGridLayout();
 
-
+    //add buttons and art widget to layout
     layout->addWidget(btnLoad, 0, 0);
     layout->addWidget(btnRect, 1, 0);
     layout->addWidget(btnSave, 0, 1);
     layout->addWidget(btnCirc, 1, 1);
     layout->addWidget(artWidget, 2, 0, 1, 2);
 
+    //pass layout to main widget and center it
     widget->setLayout(layout);
     this->setCentralWidget(widget);
 
+    //connect buttons to their method
     QObject::connect(btnLoad, &QPushButton::clicked, this, &MainWindow::onLoadClicked);
     QObject::connect(btnSave, &QPushButton::clicked, this, &MainWindow::onSaveClicked);
     QObject::connect(btnRect, &QPushButton::clicked, this, &MainWindow::onRectClicked);
@@ -41,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {}
+
 
 void MainWindow::onLoadClicked(){
 
@@ -51,20 +55,22 @@ void MainWindow::onLoadClicked(){
     std::string line;
     std::ifstream myfile (fileName.toStdString());
     try{
+        //if file is open, read contents, write in line string, close file
         if (myfile.is_open())
         {
-            if (getline (myfile,line))
+            if (getline (myfile,line)) //can be read as "if not NULL"
             {
                 std::cout << line << "\n";
             }
             myfile.close();
         }
+        //if file is not open throw error
         else
         {
             std::cout << "Unable to open file";
             throw std::string("Unable to open file");
         }
-
+        //depending on first line of file, either build RectArt, CircArt or throw error
         if (line == "[Rect Art]")
         {
             loadedArtWidget = new RectArt();
@@ -77,18 +83,22 @@ void MainWindow::onLoadClicked(){
         {
             throw std::string("Invalid file content");
         }
-
+        //load method may throw an error
         loadedArtWidget->load(fileName);
 
+        //swap loadedArtWidget with artWidget
         layout->removeWidget(artWidget);
         delete artWidget;
         artWidget = loadedArtWidget;
         layout->addWidget(artWidget, 2, 0, 1, 2);
     }
+
+    //catches thrown strings, prints to console and opens error message box
     catch(std::string const& ex){
         std::cout << ex << std::endl;
         QMessageBox messageBox;
         messageBox.critical(0, "Error", ex.c_str());
+        //makes sure loadedArtWidget is destroyed
         if (loadedArtWidget != NULL)
         {
             delete loadedArtWidget;
@@ -96,14 +106,15 @@ void MainWindow::onLoadClicked(){
     }
 };
 
+//opens dialog to save parameters in .ap file
 void MainWindow::onSaveClicked(){
-
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Art Parameters"),
                                                     "",
                                                     tr("Art Parameters (*.ap)"));
     artWidget->save(fileName);
 };
 
+//removes current artWidget and builds a RectArt for it instead
 void MainWindow::onRectClicked(){
     layout->removeWidget(artWidget);
     delete artWidget;
@@ -112,6 +123,7 @@ void MainWindow::onRectClicked(){
     layout->addWidget(artWidget, 2, 0, 1, 2);
 };
 
+//removes current artWidget and builds a CircArt for it instead
 void MainWindow::onCircClicked(){
     layout->removeWidget(artWidget);
     delete artWidget;

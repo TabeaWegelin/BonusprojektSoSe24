@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
 #include <QGridLayout>
 #include "abstractartwidget.h"
 
@@ -16,7 +15,6 @@ private:
     void onSaveClicked();
     void onRectClicked();
     void onCircClicked();
-    QGraphicsScene* scene;
     AbstractArtWidget* artWidget;
     QGridLayout* layout;
 

@@ -13,7 +13,7 @@ public:
     virtual void save(QString fileName) = 0;
     virtual void createArt() = 0; //when starting the programm
 protected:
-    static std::vector<std::vector<int>> palette;
+    static std::vector<std::vector<int>> palette; //only accessible to class and its children, static so it only exsists once
 
 
 
