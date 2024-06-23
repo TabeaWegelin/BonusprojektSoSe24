@@ -101,16 +101,15 @@ void CircArt::save(QString fileName){
 }
 
 void CircArt::createArt(){
-    int arr[4][3] = {{241,186,227},{234,136,209},{134,151,255},{185,195,255}};
     QRandomGenerator random;
     QColor color;
     color.setAlpha(70);
     int r;
     for(int i = 0; i < numCirc; i++){
         r = random.bounded(0, 3);
-        color.setRed(arr[r][0]);
-        color.setGreen(arr[r][1]);
-        color.setBlue(arr[r][2]);
+        color.setRed(palette[r][0]);
+        color.setGreen(palette[r][1]);
+        color.setBlue(palette[r][2]);
         scene->addEllipse(random.bounded(0, 400), random.bounded(0, 400), random.bounded(10, 100), random.bounded(10, 100), QPen(color), QBrush(color));
     }
 }
