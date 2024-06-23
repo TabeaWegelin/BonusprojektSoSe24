@@ -2,7 +2,6 @@
 #define ABSTRACTARTWIDGET_H
 
 #include <QWidget>
-#include <QRandomGenerator>
 
 class AbstractArtWidget : public QWidget
 {
@@ -15,7 +14,6 @@ public:
     virtual void createArt() = 0; //when starting the programm
 protected:
     static std::vector<std::vector<int>> palette;
-    static QRandomGenerator random;
 
 
 
