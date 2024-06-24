@@ -27,7 +27,7 @@ CircArt::CircArt(QWidget *parent)
     layout->addWidget(view, 0, 0);
     layout->addWidget(slider, 1, 0);
     this->setLayout(layout);
-    this->createArt();
+    CircArt::createArt();
     //connects slidermoved event with onSlider method
     QObject::connect(slider, &QSlider::sliderMoved, this, &CircArt::onSlider);
 }

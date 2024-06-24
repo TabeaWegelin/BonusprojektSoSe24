@@ -31,11 +31,11 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(btnCirc, 1, 1);
     layout->addWidget(artWidget, 2, 0, 1, 2);
 
-    //pass layout to main widget and center it
+    //pass layout to main widget and add it to the main window
     widget->setLayout(layout);
     this->setCentralWidget(widget);
 
-    //connect buttons to their method
+    //connect button events to their event handlers
     QObject::connect(btnLoad, &QPushButton::clicked, this, &MainWindow::onLoadClicked);
     QObject::connect(btnSave, &QPushButton::clicked, this, &MainWindow::onSaveClicked);
     QObject::connect(btnRect, &QPushButton::clicked, this, &MainWindow::onRectClicked);
@@ -55,7 +55,7 @@ void MainWindow::onLoadClicked(){
     std::string line;
     std::ifstream myfile (fileName.toStdString());
     try{
-        //if file is open, read contents, write in line string, close file
+        //if file is open, read contents, writes first line into string named line, close file
         if (myfile.is_open())
         {
             if (getline (myfile,line)) //can be read as "if not NULL"
