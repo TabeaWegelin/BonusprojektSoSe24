@@ -22,6 +22,8 @@ CircArt::CircArt(QWidget *parent)
     slider->setOrientation(Qt::Horizontal);
     slider->setRange(10, 1000);
     numCirc = 450;
+    slider->setValue(numCirc);
+
 
     view->setScene(scene);
     layout->addWidget(view, 0, 0);
